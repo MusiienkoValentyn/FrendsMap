@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'frendsmap'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_769969272b9443418eb83b4f8e70b5f5 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_23b2cf2dbf8e40acb0741883b5704a3c }}
         package: ${{env.DOTNET_ROOT}}/myapp 
