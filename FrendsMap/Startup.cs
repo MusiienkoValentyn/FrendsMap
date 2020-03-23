@@ -31,13 +31,17 @@ namespace FrendsMap
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddControllers();
             services.AddDbContext<FrendsMapContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("FrendsMapContext")));
 
             services.AddTransient<IPlaceService, PlaceService>();
+            services.AddTransient<ITypeOfPlaceService, TypeOfPlaceService>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+          //
+            services.AddMvc(mvcOptions => { mvcOptions.EnableEndpointRouting = false; });
             EntityFrameworkProfiler.Initialize();
         }
 
@@ -54,11 +58,20 @@ namespace FrendsMap
             app.UseRouting();
 
             app.UseAuthorization();
+            //
+            app.UseMvcWithDefaultRoute();
 
-            app.UseEndpoints(endpoints =>
+            app.UseMvc(routes =>
             {
-                endpoints.MapControllers();
+                routes.MapRoute(
+            name: "api",
+            template: "api/{controller=Values}/{action=GetAll}/{id?}");
             });
+
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
 
         }
     }

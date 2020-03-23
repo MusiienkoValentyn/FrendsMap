@@ -13,115 +13,91 @@ using FrendsMap.Models;
 using BLL.Services;
 using DAL.Entities;
 using System.Net;
+using BLL.Infrastructure;
+using System.Web.Http;
+
 namespace FrendsMap.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
+    [Route("[controller]/[action]/{id?}")]
     [ApiController]
-    public class PlacesController : ControllerBase
+
+    public class PlacesController : ApiController
     {
-        private readonly IPlaceService placeService;
+        private readonly IPlaceService _placeService;
 
         public PlacesController(IPlaceService service)
         {
-            placeService = service;
+            _placeService = service;
         }
-
-        // GET: api/Places
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Place>>> GetPlace()
+        public ActionResult GetAllPlaces()
         {
-            IEnumerable<PlaceDTO> placeDtos = placeService.GetPlaces();
+            var places = _placeService.GetPlaces();
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceDTO, PlaceViewModel>()).CreateMapper();
-            var places = mapper.Map<IEnumerable<PlaceDTO>, List<PlaceViewModel>>(placeDtos);
-            if (places == null)
+            var result = mapper.Map<IEnumerable<PlaceDTO>, List<PlaceViewModel>>(places);
+            if (result == null)
                 return NotFound();
-            return Ok(places);
+            return Ok(result);
         }
 
-       // GET: api/Places/5
         //[HttpGet("{id}")]
-        //public async Task<ActionResult<Place>> GetPlace(int id)
-        //{
-        //     var place = await placeService.Place.FindAsync(id);
+        public ActionResult GetPlace(int id)
+        {
+            var place = _placeService.GetPlace(id);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceDTO, PlaceViewModel>()).CreateMapper();
+            var result = mapper.Map<PlaceDTO, PlaceViewModel>(place);
+            if (result == null)
+                return NotFound();
+            return Ok(result);
+        }
 
-        //    if (place == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return place;
-        //}
-
-        // PUT: api/Places/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutPlace(int id, Place place)
-        //{
-        //    if (id != place.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //  //  placeService.Entry(place).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //      //  await placeService.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!PlaceExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        // POST: api/Places
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
         [HttpPost]
-        public async Task<ActionResult<Place>> PostPlace(PlaceViewModel place)
+        public ActionResult CreatePlace(PlaceViewModel place)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceViewModel, PlaceDTO>()).CreateMapper();
             PlaceDTO result = mapper.Map<PlaceViewModel, PlaceDTO>(place);
             try
             {
-                placeService.InsertPlace(result);
+                _placeService.InsertPlace(result);
                 return Ok();
             }
-            catch(Exception ex)
+            catch
             {
-                return StatusCode(Convert.ToInt32(HttpStatusCode.NoContent));
+                return StatusCode(HttpStatusCode.NoContent);
+            }
+        }
+        [HttpPut]
+        public ActionResult UpdatePlace(int id, PlaceViewModel place)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceViewModel, PlaceDTO>()).CreateMapper();
+            PlaceDTO result = mapper.Map<PlaceViewModel, PlaceDTO>(place);
+            result.Id = id;
+            try
+            {
+                _placeService.UpdatePlace(result);
+                return Ok();
+            }
+            catch
+            {
+                return StatusCode(HttpStatusCode.NoContent);
             }
         }
 
-        // DELETE: api/Places/5
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<Place>> DeletePlace(int id)
-        //{
-        //   // //var place = await placeService.Place.FindAsync(id);
-        //   // if (place == null)
-        //   // {
-        //   //     return NotFound();
-        //   // }
+        [HttpDelete]
+        // [Route("Delete")]
+        public ActionResult DeletePlace(int id)
+        {
+            try
+            {
+                _placeService.DeletePlace(id);
+                return StatusCode(HttpStatusCode.NoContent);
+            }
+            catch
+            {
+                return StatusCode(HttpStatusCode.NotFound);
+            }
+        }
 
-        //   // //placeService.Place.Remove(place);
-        //   //// await placeService.SaveChangesAsync();
-
-        //    return place;
-        //}
-
-        //private bool PlaceExists(int id)
-        //{
-        //    return placeService.Any(e => e.Id == id);
-        //}
     }
 }

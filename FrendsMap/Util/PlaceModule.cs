@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace FrendsMap.Util
 {
-    public class PlaceModule:NinjectModule
-    {
-        public override void Load()
-        {
-            Bind<IPlaceService>().To<PlaceService>();
-        }
-    }
+    //public class PlaceModule:NinjectModule
+    //{
+    //    public override void Load()
+    //    {
+    //        Bind<IPlaceService>().To<PlaceService>();
+    //    }
+    //}
 }

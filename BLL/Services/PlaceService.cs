@@ -12,13 +12,12 @@ namespace BLL.Services
 {
     public class PlaceService :BaseService<PlaceDTO,Place>, IPlaceService
     {
-        private static readonly IMapper placeMapper = new MapperConfiguration(cfg =>
-        {
-            cfg.CreateMap<Place, PlaceDTO>()
-            .ForMember(p => p.Comments, o => o.MapFrom(s => CommentService.ToBllEntity(s.Comments)));
-        }).CreateMapper();
+        //private static readonly IMapper placeMapper = new MapperConfiguration(cfg =>
+        //{
+        //    cfg.CreateMap<Place, PlaceDTO>()
+        //    .ForMember(p => p.Comments, o => o.MapFrom(s => CommentService.ToBllEntity(s.Comments)));
+        //}).CreateMapper();
 
-        //IUnitOfWork Database { get; set; }
         public PlaceService(IUnitOfWork unitOfWork):base(unitOfWork)
         {
         }

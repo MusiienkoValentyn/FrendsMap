@@ -10,7 +10,7 @@ namespace FrendsMap.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Geolocation { get; set; }
-        public string DateTimeOfAdding { get; set; }
+        public DateTime DateTimeOfAdding { get; set; }
         public int TypeOfPlaceId { get; set; }
         public int PersonId { get; set; }
     }
