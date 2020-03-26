@@ -15,51 +15,48 @@ using DAL.Entities;
 using System.Net;
 using BLL.Infrastructure;
 using System.Web.Http;
-
 namespace FrendsMap.Controllers
 {
-    //[Route("api/[controller]")]
     [Route("[controller]/[action]/{id?}")]
     [ApiController]
-    public class PlacesController : ApiController
+    public class PeopleController: ApiController
     {
-        private readonly IPlaceService _placeService;
+        private readonly IPersonService _personService;
 
-        public PlacesController(IPlaceService service)
+        public PeopleController(IPersonService service)
         {
-            _placeService = service;
+            _personService = service;
         }
-        
         [HttpGet]
-        public ActionResult GetAllPlaces()
+        public ActionResult GetAllPeople()
         {
-            var places = _placeService.GetPlaces();
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceDTO, PlaceViewModel>()).CreateMapper();
-            var result = mapper.Map<IEnumerable<PlaceDTO>, List<PlaceViewModel>>(places);
+            var people = _personService.GetPeople();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>()).CreateMapper();
+            var result = mapper.Map<IEnumerable<PersonDTO>, List<PersonViewModel>>(people);
             if (result == null)
                 return NotFound();
             return Ok(result);
         }
 
         //[HttpGet("{id}")]
-        public ActionResult GetPlace(int id)
+        public ActionResult GetPerson(int id)
         {
-            var place = _placeService.GetPlace(id);
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceDTO, PlaceViewModel>()).CreateMapper();
-            var result = mapper.Map<PlaceDTO, PlaceViewModel>(place);
+            var person = _personService.GetPerson(id);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>()).CreateMapper();
+            var result = mapper.Map<PersonDTO, PersonViewModel>(person);
             if (result == null)
                 return NotFound();
             return Ok(result);
         }
 
         [HttpPost]
-        public ActionResult CreatePlace(PlaceViewModel place)
+        public ActionResult CreatePerson(PersonViewModel person)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceViewModel, PlaceDTO>()).CreateMapper();
-            PlaceDTO result = mapper.Map<PlaceViewModel, PlaceDTO>(place);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PersonViewModel, PersonDTO>()).CreateMapper();
+            PersonDTO result = mapper.Map<PersonViewModel, PersonDTO>(person);
             try
             {
-                _placeService.InsertPlace(result);
+                _personService.InsertPerson(result);
                 return Ok();
             }
             catch
@@ -67,16 +64,15 @@ namespace FrendsMap.Controllers
                 return StatusCode(HttpStatusCode.NoContent);
             }
         }
-
         [HttpPut]
-        public ActionResult UpdatePlace(int id, PlaceViewModel place)
+        public ActionResult UpdatePerson(int id, PersonViewModel person)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceViewModel, PlaceDTO>()).CreateMapper();
-            PlaceDTO result = mapper.Map<PlaceViewModel, PlaceDTO>(place);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PersonViewModel, PersonDTO>()).CreateMapper();
+            PersonDTO result = mapper.Map<PersonViewModel, PersonDTO>(person);
             result.Id = id;
             try
             {
-                _placeService.UpdatePlace(result);
+                _personService.UpdatePerson(result);
                 return Ok();
             }
             catch
@@ -87,11 +83,11 @@ namespace FrendsMap.Controllers
 
         [HttpDelete]
         // [Route("Delete")]
-        public ActionResult DeletePlace(int id)
+        public ActionResult DeletePerson(int id)
         {
             try
             {
-                _placeService.DeletePlace(id);
+                _personService.DeletePerson(id);
                 return StatusCode(HttpStatusCode.NoContent);
             }
             catch

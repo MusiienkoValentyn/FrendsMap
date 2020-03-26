@@ -15,51 +15,49 @@ using DAL.Entities;
 using System.Net;
 using BLL.Infrastructure;
 using System.Web.Http;
-
 namespace FrendsMap.Controllers
 {
-    //[Route("api/[controller]")]
     [Route("[controller]/[action]/{id?}")]
     [ApiController]
-    public class PlacesController : ApiController
+    public class PhotosController:ApiController
     {
-        private readonly IPlaceService _placeService;
+        private IPhotoService _photoService;
 
-        public PlacesController(IPlaceService service)
+        public PhotosController(IPhotoService service)
         {
-            _placeService = service;
+            _photoService = service;
         }
-        
+
         [HttpGet]
-        public ActionResult GetAllPlaces()
+        public ActionResult GetAllPhotos()
         {
-            var places = _placeService.GetPlaces();
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceDTO, PlaceViewModel>()).CreateMapper();
-            var result = mapper.Map<IEnumerable<PlaceDTO>, List<PlaceViewModel>>(places);
+            var photos = _photoService.GetPhotos();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PhotoDTO, PhotoViewModel>()).CreateMapper();
+            var result = mapper.Map<IEnumerable<PhotoDTO>, List<PhotoViewModel>>(photos);
             if (result == null)
                 return NotFound();
             return Ok(result);
         }
 
         //[HttpGet("{id}")]
-        public ActionResult GetPlace(int id)
+        public ActionResult GetPhoto(int id)
         {
-            var place = _placeService.GetPlace(id);
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceDTO, PlaceViewModel>()).CreateMapper();
-            var result = mapper.Map<PlaceDTO, PlaceViewModel>(place);
+            var photo = _photoService.GetPhoto(id);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PhotoDTO, PhotoViewModel>()).CreateMapper();
+            var result = mapper.Map<PhotoDTO, PhotoViewModel>(photo);
             if (result == null)
                 return NotFound();
             return Ok(result);
         }
 
         [HttpPost]
-        public ActionResult CreatePlace(PlaceViewModel place)
+        public ActionResult CreatePhoto(PhotoViewModel photo)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceViewModel, PlaceDTO>()).CreateMapper();
-            PlaceDTO result = mapper.Map<PlaceViewModel, PlaceDTO>(place);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PhotoViewModel, PhotoDTO>()).CreateMapper();
+            PhotoDTO result = mapper.Map<PhotoViewModel, PhotoDTO>(photo);
             try
             {
-                _placeService.InsertPlace(result);
+                _photoService.InsertPhoto(result);
                 return Ok();
             }
             catch
@@ -69,14 +67,14 @@ namespace FrendsMap.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdatePlace(int id, PlaceViewModel place)
+        public ActionResult UpdatePhoto(int id, PhotoViewModel place)
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceViewModel, PlaceDTO>()).CreateMapper();
-            PlaceDTO result = mapper.Map<PlaceViewModel, PlaceDTO>(place);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PhotoViewModel, PhotoDTO>()).CreateMapper();
+            PhotoDTO result = mapper.Map<PhotoViewModel, PhotoDTO>(place);
             result.Id = id;
             try
             {
-                _placeService.UpdatePlace(result);
+                _photoService.UpdatePhotoe(result);
                 return Ok();
             }
             catch
@@ -91,7 +89,7 @@ namespace FrendsMap.Controllers
         {
             try
             {
-                _placeService.DeletePlace(id);
+                _photoService.DeletePhoto(id);
                 return StatusCode(HttpStatusCode.NoContent);
             }
             catch
@@ -99,5 +97,6 @@ namespace FrendsMap.Controllers
                 return StatusCode(HttpStatusCode.NotFound);
             }
         }
+
     }
 }

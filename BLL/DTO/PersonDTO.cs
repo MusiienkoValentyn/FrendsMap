@@ -17,7 +17,7 @@ namespace BLL.DTO
         public IEnumerable<Photo> Photos { get; set; }
         public IEnumerable<Comment> Comments { get; set; }
         public IEnumerable<Ranking> Rankings { get; set; }
-        public IEnumerable<RankingOfFriend> RankingOfFriends { get; set; }
-        public IEnumerable<RankingOfFriend> RankingOfFriends1 { get; set; }
+        public IEnumerable<RankingOfFriendDTO> RankingOfFriends { get; set; }
+        public IEnumerable<RankingOfFriendDTO> RankingOfFriends1 { get; set; }
     }
 }

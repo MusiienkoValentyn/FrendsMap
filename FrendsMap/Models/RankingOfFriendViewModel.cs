@@ -1,20 +1,18 @@
-﻿using DAL.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace BLL.DTO
+namespace FrendsMap.Models
 {
-    public class RankingOfFriend
+    public class RankingOfFriendViewModel
     {
         public int Id { get; set; }
         public int Mark { get; set; }
         public System.DateTime DateTimeOfAdding { get; set; }
 
+        public int? TypeOfPlaceId { get; set; }
         public int? PersonId { get; set; }
-        public Person Person { get; set; }
-
         public int? FriendId { get; set; }
-        public Person Person1 { get; set; }
     }
 }

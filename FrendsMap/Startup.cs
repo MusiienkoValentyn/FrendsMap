@@ -16,6 +16,7 @@ using BLL.Interfaces;
 using BLL.Services;
 using Microsoft.AspNetCore.Http;
 using HibernatingRhinos.Profiler.Appender.EntityFramework;
+using System.Reflection;
 
 namespace FrendsMap
 {
@@ -33,11 +34,23 @@ namespace FrendsMap
         {
 
             services.AddControllers();
+            //services.AddDbContext<FrendsMapContext>(options =>
+            //        options.UseSqlServer(Configuration.GetConnectionString("FrendsMapContext")));
+
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
             services.AddDbContext<FrendsMapContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("FrendsMapContext")));
+              options.UseSqlServer(Configuration.GetConnectionString("FrendsMapContext"), optionsBuilder => optionsBuilder.MigrationsAssembly(migrationsAssembly)));
+
 
             services.AddTransient<IPlaceService, PlaceService>();
             services.AddTransient<ITypeOfPlaceService, TypeOfPlaceService>();
+            services.AddTransient<IPersonService, PersonService>();
+            services.AddTransient<IRankingService,RankingService>();
+            services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<IPhotoService, PhotoService>();
+            services.AddTransient<IRankingOfFriendService, RankingOfFriendService>();
+
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
           //
@@ -46,8 +59,11 @@ namespace FrendsMap
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,FrendsMapContext context)
         {
+            //
+            //context.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -67,6 +83,7 @@ namespace FrendsMap
             name: "api",
             template: "api/{controller=Values}/{action=GetAll}/{id?}");
             });
+
 
             //app.UseEndpoints(endpoints =>
             //{

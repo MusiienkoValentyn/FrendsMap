@@ -18,18 +18,18 @@ namespace DAL
         public FrendsMapContext(DbContextOptions<FrendsMapContext> options)
             : base(options)
         {
-           // Database.EnsureDeleted();
-             Database.EnsureCreated();
+             //Database.EnsureDeleted();
+            //Database.EnsureCreated();
+
         }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          
             modelBuilder.Entity<RankingOfFriend>()
-          .HasOne(p => p.Person)
-          .WithMany(b => b.RankingOfFriends)
-          .HasForeignKey(p => p.PersonId);
+             .HasOne(p => p.Person)
+             .WithMany(b => b.RankingOfFriends)
+             .HasForeignKey(p => p.PersonId);
 
             modelBuilder.Entity<RankingOfFriend>()
           .HasOne(p => p.Person1)
@@ -37,6 +37,7 @@ namespace DAL
           .HasForeignKey(p => p.FriendId);
 
             modelBuilder.Seed();
+
         }
 
         public DbSet<TypeOfPlace> TypeOfPlace { get; set; }
