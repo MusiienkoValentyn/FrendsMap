@@ -104,14 +104,17 @@ namespace FrendsMap.Controllers
 
 
         [HttpGet]
-        public ActionResult GetNickNameByNickname(string nickname)
+        public ActionResult GetIsConsistByNickname(string nickname)
         {
+            try
+            { 
             var friends = _personService.GetPerson(nickname);
-
-
-            if (friends == null)
-                return NotFound();
             return Ok(friends);
+            }
+            catch(Exception)
+            {
+                return NotFound();
+            }
         }
 
 

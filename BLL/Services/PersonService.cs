@@ -68,7 +68,7 @@ namespace BLL.Services
 
 
 
-        public string GetPerson(string nickname)
+        public bool GetPerson(string nickname)
         {
 
             var res = (from person in UnitOfWork.Person.GetAll()
@@ -76,9 +76,9 @@ namespace BLL.Services
                        select person.NickName).ToList();
 
             if (res.Count > 0)
-                return "Already here";
+                return true;
             else
-                return "Ok";
+                return false;
 
         }
 

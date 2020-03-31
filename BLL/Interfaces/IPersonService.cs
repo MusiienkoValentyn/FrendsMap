@@ -15,7 +15,7 @@ namespace BLL.Interfaces
 
 
 
-        string GetPerson(string nickname);
+        bool GetPerson(string nickname);
 
     }
 }
