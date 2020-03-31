@@ -12,5 +12,10 @@ namespace BLL.Interfaces
         void InsertRankingOfFriend(RankingOfFriendDTO place);
         void UpdateRankingOfFriend(RankingOfFriendDTO place);
         void DeleteRankingOfFriend(int? id);
+
+
+        IEnumerable<RankingOfFriendDTO> GetAllFriends(int? id);
+
+        List<string> GetListOfFriends(int? id);
     }
 }

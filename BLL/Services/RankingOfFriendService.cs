@@ -5,6 +5,7 @@ using DAL;
 using DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BLL.Services
@@ -59,6 +60,28 @@ namespace BLL.Services
             RankingOfFriend placeEntity = ToDalEntity(ranking);
             UnitOfWork.RankingOfFriend.Update(placeEntity);
             UnitOfWork.Save();
+        }
+
+
+
+
+
+
+        public IEnumerable<RankingOfFriendDTO> GetAllFriends(int? id)
+        {
+            //return ToBllEntity(UnitOfWork.RankingOfFriend.GetAll().Where(s => s.PersonId == id));
+            return ToBllEntity(from person in UnitOfWork.RankingOfFriend.GetAll() where person.PersonId == id select person);
+            //  //  var res = ToBllEntity(UnitOfWork.RankingOfFriend.FromSql(""));
+
+            //    return res;
+        }
+
+        public List<string> GetListOfFriends(int? id)
+        {
+
+            return (from ranking in UnitOfWork.RankingOfFriend.GetAll() 
+                    join person in UnitOfWork.Person.GetAll() on ranking.FriendId equals person.Id 
+                    where ranking.PersonId == id select person.NickName).Distinct().ToList();
         }
     }
 }

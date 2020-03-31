@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace BLL.Services
 {
     public class BaseService<TBllEntity, TDalEntity>: IDisposable where TBllEntity:class where TDalEntity:BaseEntity

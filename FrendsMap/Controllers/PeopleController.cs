@@ -95,5 +95,25 @@ namespace FrendsMap.Controllers
                 return StatusCode(HttpStatusCode.NotFound);
             }
         }
+
+
+
+
+
+
+
+
+        [HttpGet]
+        public ActionResult GetNickNameByNickname(string nickname)
+        {
+            var friends = _personService.GetPerson(nickname);
+
+
+            if (friends == null)
+                return NotFound();
+            return Ok(friends);
+        }
+
+
     }
 }

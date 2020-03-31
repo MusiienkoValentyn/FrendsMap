@@ -5,11 +5,12 @@ using DAL;
 using DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BLL.Services
 {
-   public class PersonService : BaseService<PersonDTO, Person>, IPersonService
+    public class PersonService : BaseService<PersonDTO, Person>, IPersonService
     {
         public PersonService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
@@ -22,6 +23,7 @@ namespace BLL.Services
             UnitOfWork.Person.Delete(id.Value);
             UnitOfWork.Save();
         }
+
 
         public IEnumerable<PersonDTO> GetPeople()
         {
@@ -60,5 +62,25 @@ namespace BLL.Services
             UnitOfWork.Person.Update(personEntity);
             UnitOfWork.Save();
         }
+
+
+
+
+
+
+        public string GetPerson(string nickname)
+        {
+
+            var res = (from person in UnitOfWork.Person.GetAll()
+                       where person.NickName == nickname
+                       select person.NickName).ToList();
+
+            if (res.Count > 0)
+                return "Already here";
+            else
+                return "Ok";
+
+        }
+
     }
 }

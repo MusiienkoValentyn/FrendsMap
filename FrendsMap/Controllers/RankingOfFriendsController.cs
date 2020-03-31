@@ -99,5 +99,29 @@ namespace FrendsMap.Controllers
             }
         }
 
+
+        [HttpGet]
+        public ActionResult GetAllFriendsById(int id)
+        {
+            var friends = _rankingOfFriendService.GetAllFriends(id);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RankingOfFriendDTO, RankingOfFriendViewModel>()).CreateMapper();
+            var result = mapper.Map<IEnumerable<RankingOfFriendDTO>, List<RankingOfFriendViewModel>>(friends);
+
+            if (result == null)
+                return NotFound();
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public ActionResult GetListOfFriendsById(int id)
+        {
+            var friends = _rankingOfFriendService.GetListOfFriends(id);
+
+
+            if (friends == null)
+                return NotFound();
+            return Ok(friends);
+        }
+
     }
 }

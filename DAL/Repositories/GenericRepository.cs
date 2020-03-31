@@ -8,8 +8,8 @@ namespace DAL
 {
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
     {
-        DbContext _context;
-        DbSet<TEntity> _dbSet;
+        protected DbContext _context;
+        protected DbSet<TEntity> _dbSet;
         public GenericRepository(DbContext context)
         {
             _context = context;
