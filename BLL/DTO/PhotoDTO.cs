@@ -10,6 +10,7 @@ namespace BLL.DTO
         public int Id { get; set; }
         public string URL { get; set; }
         public System.DateTime DateTimeOfAdding { get; set; }
+        //public bool IsAccepted { get; set; }
 
         public int? PlaceId { get; set; }
         public Place Place { get; set; }

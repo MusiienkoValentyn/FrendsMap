@@ -50,7 +50,7 @@ namespace FrendsMap.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreatePerson(PersonViewModel person)
+        public ActionResult CreatePerson([FromForm]PersonViewModel person)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PersonViewModel, PersonDTO>()).CreateMapper();
             PersonDTO result = mapper.Map<PersonViewModel, PersonDTO>(person);

@@ -76,6 +76,12 @@ namespace BLL.Services
             //    return res;
         }
 
+
+
+
+
+
+
         public List<string> GetListOfFriends(int? id)
         {
 

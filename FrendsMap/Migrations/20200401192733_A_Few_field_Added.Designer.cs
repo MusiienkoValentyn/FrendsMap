@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FrendsMap.Migrations
 {
     [DbContext(typeof(FrendsMapContext))]
-    [Migration("20200326121421_RankingOfFriendsChanged")]
-    partial class RankingOfFriendsChanged
+    [Migration("20200401192733_A_Few_field_Added")]
+    partial class A_Few_field_Added
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,12 +57,18 @@ namespace FrendsMap.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Gmail")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("NickName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -72,12 +78,14 @@ namespace FrendsMap.Migrations
                         new
                         {
                             Id = 1,
-                            NickName = "Pogrib"
+                            NickName = "Pogrib",
+                            Rating = 0
                         },
                         new
                         {
                             Id = 2,
-                            NickName = "Meska"
+                            NickName = "Meska",
+                            Rating = 0
                         });
                 });
 
@@ -146,7 +154,7 @@ namespace FrendsMap.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeOfAdding = new DateTime(2020, 3, 26, 14, 14, 4, 159, DateTimeKind.Local).AddTicks(2855),
+                            DateTimeOfAdding = new DateTime(2020, 4, 1, 22, 27, 33, 163, DateTimeKind.Local).AddTicks(3102),
                             Geolocation = "124/24.12",
                             Name = "Gurtogitok 7",
                             PersonId = 1,
@@ -155,7 +163,7 @@ namespace FrendsMap.Migrations
                         new
                         {
                             Id = 2,
-                            DateTimeOfAdding = new DateTime(2020, 3, 26, 14, 14, 4, 159, DateTimeKind.Local).AddTicks(3750),
+                            DateTimeOfAdding = new DateTime(2020, 4, 1, 22, 27, 33, 163, DateTimeKind.Local).AddTicks(3944),
                             Geolocation = "124/24.13",
                             Name = "Hata",
                             PersonId = 2,

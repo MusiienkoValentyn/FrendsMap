@@ -13,8 +13,9 @@ namespace DAL.Entities
         [Required]
         public string NickName { get; set; }
         public string Photo { get; set; }
-        //public string Gmail { get; set; }
-        
+        public string Gmail { get; set; }
+        public int Rating { get; set; }
+
         public ICollection<Place> Places { get; set; }
         public ICollection<Photo> Photos { get; set; }
         public ICollection<Comment> Comments { get; set; }

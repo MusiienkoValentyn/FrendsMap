@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FrendsMap.Migrations
 {
     [DbContext(typeof(FrendsMapContext))]
-    partial class FrendsMapContextModelSnapshot : ModelSnapshot
+    [Migration("20200402204524_A_Few_field_Added3")]
+    partial class A_Few_field_Added3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,7 +154,7 @@ namespace FrendsMap.Migrations
                         new
                         {
                             Id = 1,
-                            DateTimeOfAdding = new DateTime(2020, 4, 2, 23, 48, 52, 825, DateTimeKind.Local).AddTicks(3895),
+                            DateTimeOfAdding = new DateTime(2020, 4, 2, 23, 45, 23, 663, DateTimeKind.Local).AddTicks(5620),
                             Geolocation = "124/24.12",
                             Name = "Gurtogitok 7",
                             PersonId = 1,
@@ -161,7 +163,7 @@ namespace FrendsMap.Migrations
                         new
                         {
                             Id = 2,
-                            DateTimeOfAdding = new DateTime(2020, 4, 2, 23, 48, 52, 825, DateTimeKind.Local).AddTicks(5005),
+                            DateTimeOfAdding = new DateTime(2020, 4, 2, 23, 45, 23, 663, DateTimeKind.Local).AddTicks(6693),
                             Geolocation = "124/24.13",
                             Name = "Hata",
                             PersonId = 2,

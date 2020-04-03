@@ -112,6 +112,15 @@ namespace FrendsMap.Controllers
             return Ok(result);
         }
 
+
+
+
+
+
+
+
+
+
         [HttpGet]
         public ActionResult GetListOfFriendsById(int id)
         {

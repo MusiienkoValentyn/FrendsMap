@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace FrendsMap.Migrations
 {
-    public partial class RankingOfFriendsChanged : Migration
+    public partial class A_Few_field_Added : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,9 @@ namespace FrendsMap.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NickName = table.Column<string>(nullable: false),
-                    Photo = table.Column<string>(nullable: true)
+                    Photo = table.Column<string>(nullable: true),
+                    Gmail = table.Column<string>(nullable: true),
+                    Rating = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -184,11 +186,11 @@ namespace FrendsMap.Migrations
 
             migrationBuilder.InsertData(
                 table: "Person",
-                columns: new[] { "Id", "NickName", "Photo" },
+                columns: new[] { "Id", "Gmail", "NickName", "Photo", "Rating" },
                 values: new object[,]
                 {
-                    { 1, "Pogrib", null },
-                    { 2, "Meska", null }
+                    { 1, null, "Pogrib", null, 0 },
+                    { 2, null, "Meska", null, 0 }
                 });
 
             migrationBuilder.InsertData(
@@ -203,12 +205,12 @@ namespace FrendsMap.Migrations
             migrationBuilder.InsertData(
                 table: "Place",
                 columns: new[] { "Id", "DateTimeOfAdding", "Geolocation", "Name", "PersonId", "TypeOfPlaceId" },
-                values: new object[] { 2, new DateTime(2020, 3, 26, 14, 14, 4, 159, DateTimeKind.Local).AddTicks(3750), "124/24.13", "Hata", 2, 1 });
+                values: new object[] { 2, new DateTime(2020, 4, 1, 22, 27, 33, 163, DateTimeKind.Local).AddTicks(3944), "124/24.13", "Hata", 2, 1 });
 
             migrationBuilder.InsertData(
                 table: "Place",
                 columns: new[] { "Id", "DateTimeOfAdding", "Geolocation", "Name", "PersonId", "TypeOfPlaceId" },
-                values: new object[] { 1, new DateTime(2020, 3, 26, 14, 14, 4, 159, DateTimeKind.Local).AddTicks(2855), "124/24.12", "Gurtogitok 7", 1, 2 });
+                values: new object[] { 1, new DateTime(2020, 4, 1, 22, 27, 33, 163, DateTimeKind.Local).AddTicks(3102), "124/24.12", "Gurtogitok 7", 1, 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comment_PersonId",

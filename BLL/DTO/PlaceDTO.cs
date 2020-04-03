@@ -11,6 +11,7 @@ namespace BLL.DTO
         public string Name { get; set; }
         public string Geolocation { get; set; }
         public System.DateTime DateTimeOfAdding { get; set; }
+        //public bool IsAccepted { get; set; }
 
         public int TypeOfPlaceId { get; set; }
         public TypeOfPlace TypeOfPlace { get; set; }
