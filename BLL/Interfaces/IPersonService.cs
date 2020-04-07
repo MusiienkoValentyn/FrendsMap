@@ -12,10 +12,5 @@ namespace BLL.Interfaces
         void InsertPerson(PersonDTO person);
         void UpdatePerson(PersonDTO person);
         void DeletePerson(int? id);
-
-
-
-        bool GetPerson(string nickname);
-
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
 namespace DAL.Entities
 {
@@ -10,9 +11,10 @@ namespace DAL.Entities
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        //[Required]
         public string NickName { get; set; }
-        public string Photo { get; set; }
+        //public string Photo { get; set; }
+        //public string Image { get; set; }
         //public string Gmail { get; set; }
         //public int Rating { get; set; }
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL;
 using BLL.Interfaces;
+using BLL.Exceptions;
 using BLL.DTO;
 using AutoMapper;
 using FrendsMap.Models;
@@ -19,7 +20,7 @@ namespace FrendsMap.Controllers
 {
     [Route("[controller]/[action]/{id?}")]
     [ApiController]
-    public class PeopleController: ApiController
+    public class PeopleController : ApiController
     {
         private readonly IPersonService _personService;
 
@@ -59,11 +60,17 @@ namespace FrendsMap.Controllers
                 _personService.InsertPerson(result);
                 return Ok();
             }
-            catch
+            catch (LoginException ex)
+            {
+               throw ex;
+            }
+
+            catch(Exception ex)
             {
                 return StatusCode(HttpStatusCode.NoContent);
             }
         }
+
         [HttpPut]
         public ActionResult UpdatePerson(int id, PersonViewModel person)
         {
@@ -78,6 +85,7 @@ namespace FrendsMap.Controllers
             catch
             {
                 return StatusCode(HttpStatusCode.NoContent);
+
             }
         }
 
@@ -95,28 +103,5 @@ namespace FrendsMap.Controllers
                 return StatusCode(HttpStatusCode.NotFound);
             }
         }
-
-
-
-
-
-
-
-
-        [HttpGet]
-        public ActionResult GetIsConsistByNickname(string nickname)
-        {
-            try
-            { 
-            var friends = _personService.GetPerson(nickname);
-            return Ok(friends);
-            }
-            catch(Exception)
-            {
-                return NotFound();
-            }
-        }
-
-
     }
 }

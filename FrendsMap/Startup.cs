@@ -43,6 +43,9 @@ namespace FrendsMap
               options.UseSqlServer(Configuration.GetConnectionString("FrendsMapContext"), optionsBuilder => optionsBuilder.MigrationsAssembly(migrationsAssembly)));
 
 
+           // services.AddSingleton(x => new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
+           // services.AddSingleton<IBlobService, BlobService>();
+
             services.AddTransient<IPlaceService, PlaceService>();
             services.AddTransient<ITypeOfPlaceService, TypeOfPlaceService>();
             services.AddTransient<IPersonService, PersonService>();
