@@ -62,7 +62,7 @@ namespace FrendsMap.Controllers
             }
             catch (LoginException ex)
             {
-               throw ex;
+               throw new LoginException(ex.Message);
             }
 
             catch(Exception ex)
