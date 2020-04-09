@@ -9,6 +9,7 @@ namespace BLL.Interfaces
     {
         IEnumerable<PhotoDTO> GetPhotos();
         PhotoDTO GetPhoto(int? id);
+        string GetLastAvatar(string nickname);
         void InsertPhoto(PhotoDTO place);
         void UpdatePhotoe(PhotoDTO place);
         void DeletePhoto(int? id);

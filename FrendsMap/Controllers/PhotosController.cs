@@ -39,7 +39,7 @@ namespace FrendsMap.Controllers
             return Ok(result);
         }
 
-        //[HttpGet("{id}")]
+        [HttpGet]
         public ActionResult GetPhoto(int id)
         {
             var photo = _photoService.GetPhoto(id);
@@ -49,6 +49,14 @@ namespace FrendsMap.Controllers
                 return NotFound();
             return Ok(result);
         }
+
+        [HttpGet]
+        public ActionResult GetLastAvatar(string nickname)
+        {
+            var photo = _photoService.GetLastAvatar(nickname);
+            return Ok(photo);
+        }
+
 
         [HttpPost]
         public ActionResult CreatePhoto(PhotoViewModel photo)

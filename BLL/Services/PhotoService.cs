@@ -5,6 +5,7 @@ using DAL;
 using DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BLL.Services
@@ -21,6 +22,18 @@ namespace BLL.Services
 
             UnitOfWork.Photo.Delete(id.Value);
             UnitOfWork.Save();
+        }
+
+        public string GetLastAvatar(string nickname)
+        {
+            var res = from photo in UnitOfWork.Photo.GetAll()
+                      join person in UnitOfWork.Person.GetAll()
+                      on photo.PersonId equals person.Id
+                      where photo.PlaceId == null && person.NickName == nickname
+                      orderby photo.DateTimeOfAdding descending
+                      select photo.URL;
+
+            return res.FirstOrDefault();
         }
 
         public PhotoDTO GetPhoto(int? id)
