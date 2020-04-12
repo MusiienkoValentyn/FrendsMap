@@ -60,7 +60,7 @@ namespace BLL.Services
         }
 
 
-        public void InsertPerson(PersonDTO person)
+        public async void InsertPerson(PersonDTO person)
         {
             if (person == null)
                 throw new ValidationException("Argument is null", nameof(person));
@@ -97,8 +97,7 @@ namespace BLL.Services
 
 
 
-            Task.Run(() => UploadFile(path, ms, pathToDb));
-
+           await Task.Run(() => UploadFile(path, ms, pathToDb));
 
 
 
