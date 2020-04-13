@@ -9,6 +9,7 @@ namespace BLL.Interfaces
     {
         IEnumerable<PersonDTO> GetPeople();
         PersonDTO GetPerson(int? id);
+        bool GetPerson(string nickname);
         void InsertPerson(PersonDTO person);
         void UpdatePerson(PersonDTO person);
         void DeletePerson(int? id);

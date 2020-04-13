@@ -59,14 +59,28 @@ namespace BLL.Services
             return ToBllEntity(person);
         }
 
+        public bool GetPerson(string nickname)
+        {
+            if (nickname == null)
+                throw new ValidationException("Argmunet is null", nameof(nickname));
+
+            var res = (from person in UnitOfWork.Person.GetAll()
+                       where person.NickName == nickname
+                       select person.NickName).ToList();
+
+            if (res.Count > 0)
+                return true;
+            else
+                return false;
+        }
 
         public void InsertPerson(PersonDTO person)
         {
             if (person == null)
                 throw new ValidationException("Argument is null", nameof(person));
 
-            if (GetPerson(person.NickName))
-                throw new LoginException("Тебе хтось випередив. Вигадай інший нік");
+            //if (GetPerson(person.NickName))
+            //    throw new LoginException("Тебе хтось випередив. Вигадай інший нік");
 
             Person personEntity = ToDalEntity(person);
             var pNick = person.NickName;
@@ -264,18 +278,7 @@ namespace BLL.Services
 
 
 
-        private bool GetPerson(string nickname)
-        {
-            var res = (from person in UnitOfWork.Person.GetAll()
-                       where person.NickName == nickname
-                       select person.NickName).ToList();
 
-            if (res.Count > 0)
-                return true;
-            else
-                return false;
-
-        }
 
         private List<int> GetPersonIdAndAmountOfImagesByNickname(string nick)
         {

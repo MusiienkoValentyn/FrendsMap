@@ -39,7 +39,7 @@ namespace FrendsMap.Controllers
             return Ok(result);
         }
 
-        //[HttpGet("{id}")]
+        [HttpGet]
         public ActionResult GetPerson(int id)
         {
             var person = _personService.GetPerson(id);
@@ -49,6 +49,14 @@ namespace FrendsMap.Controllers
                 return NotFound();
             return Ok(result);
         }
+
+        [HttpGet]
+        public ActionResult GetPerson(string nickname)
+        {
+            var person = _personService.GetPerson(nickname);
+            return Ok(person);
+        }
+
 
         [HttpPost]
         public ActionResult CreatePerson([FromForm]PersonViewModel person)
