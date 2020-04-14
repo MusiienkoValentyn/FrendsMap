@@ -51,7 +51,7 @@ namespace FrendsMap.Controllers
         }
 
         [HttpGet]
-        public ActionResult GetPerson(string nickname)
+        public ActionResult IsPersonConsist(string nickname)
         {
             var person = _personService.GetPerson(nickname);
             return Ok(person);
