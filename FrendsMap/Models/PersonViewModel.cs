@@ -11,6 +11,9 @@ namespace FrendsMap.Models
         public int Id { get; set; }
         public string NickName { get; set; }
         public string  Gmail{ get; set; }
+        public string Avatar { get; set; }
+        public int Rating { get; set; }
+        public string IDUserOfGoogle { get; set; }
 
         public IFormFile Image  { get; set; }
     }
