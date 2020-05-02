@@ -79,10 +79,17 @@ namespace BLL.Services
             if (person == null)
                 throw new ValidationException("Argument is null", nameof(person));
 
-
+            
             Person personEntity = ToDalEntity(person);
-            var pNick = person.NickName;
+            personEntity.Avatar = $"{personEntity.NickName}Avatar";
+            //var pNick = person.NickName;
             UnitOfWork.Person.Create(personEntity);
+
+            var bytes = person.Image.GetBytes();
+            MemoryStream ms = new MemoryStream(bytes.Result);
+
+            var path = "DefaultEndpointsProtocol=https;AccountName=frendsmapimagestorage1;AccountKey=w9SZUCuKSTiZAw6clAbZbyA/LsgQI/3JEpEMBNCpDyj2rGPJ6OIBTYaFoROqByRTNESVDtgGelxNIk8UOO9IrQ==;EndpointSuffix=core.windows.net";
+            Task.Run(() => UploadFile(path, ms,  personEntity.Avatar));
             UnitOfWork.Save();
 
 
@@ -90,28 +97,28 @@ namespace BLL.Services
             ///////////////////////////////////////////////////////////////////////////////////////////
 
 
-            var personIdAndImageCount = GetPersonIdAndAmountOfImagesByNickname(pNick);
+           // var personIdAndImageCount = GetPersonIdAndAmountOfImagesByNickname(pNick);
 
-            if(person.Image==null)
-                throw new ValidationException("Argument is null", nameof(person.Image));
+           // if(person.Image==null)
+           //     throw new ValidationException("Argument is null", nameof(person.Image));
 
-            var bytes = person.Image.GetBytes();
-            MemoryStream ms = new MemoryStream(bytes.Result);
-            var b = FreeImageBitmap.FromStream(ms);
+           // var bytes = person.Image.GetBytes();
+           // MemoryStream ms = new MemoryStream(bytes.Result);
+           // var b = FreeImageBitmap.FromStream(ms);
 
-            var path = "DefaultEndpointsProtocol=https;AccountName=frendsmapimagestorage1;AccountKey=w9SZUCuKSTiZAw6clAbZbyA/LsgQI/3JEpEMBNCpDyj2rGPJ6OIBTYaFoROqByRTNESVDtgGelxNIk8UOO9IrQ==;EndpointSuffix=core.windows.net";
+           // var path = "DefaultEndpointsProtocol=https;AccountName=frendsmapimagestorage1;AccountKey=w9SZUCuKSTiZAw6clAbZbyA/LsgQI/3JEpEMBNCpDyj2rGPJ6OIBTYaFoROqByRTNESVDtgGelxNIk8UOO9IrQ==;EndpointSuffix=core.windows.net";
 
-            var pathToDb = $"{pNick}_{personIdAndImageCount[1] + 1}.jpg";
+           // var pathToDb = $"{pNick}_{personIdAndImageCount[1] + 1}.jpg";
 
-           Task.Run(() => UploadFile(path, ms, pathToDb));
+           //Task.Run(() => UploadFile(path, ms, pathToDb));
 
-            PhotoDTO photo = new PhotoDTO();
-            photo.DateTimeOfAdding = DateTime.Now;
-            photo.PersonId = personIdAndImageCount[0];
-            photo.URL = "https://frendsmapimagestorage1.blob.core.windows.net/images/"+pathToDb;
+           // PhotoDTO photo = new PhotoDTO();
+           // photo.DateTimeOfAdding = DateTime.Now;
+           // photo.PersonId = personIdAndImageCount[0];
+           // photo.URL = "https://frendsmapimagestorage1.blob.core.windows.net/images/"+pathToDb;
 
-            PhotoService photoService = new PhotoService(_unitOfWork);
-            photoService.InsertPhoto(photo);
+           // PhotoService photoService = new PhotoService(_unitOfWork);
+           // photoService.InsertPhoto(photo);
 
         }
 

@@ -17,6 +17,7 @@ using BLL.Services;
 using Microsoft.AspNetCore.Http;
 using HibernatingRhinos.Profiler.Appender.EntityFramework;
 using System.Reflection;
+using DAL.Configuration;
 
 namespace FrendsMap
 {
@@ -42,9 +43,9 @@ namespace FrendsMap
             services.AddDbContext<FrendsMapContext>(options =>
               options.UseSqlServer(Configuration.GetConnectionString("FrendsMapContext"), optionsBuilder => optionsBuilder.MigrationsAssembly(migrationsAssembly)));
 
-
-           // services.AddSingleton(x => new BlobServiceClient(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
-           // services.AddSingleton<IBlobService, BlobService>();
+            services.Configure<AzureStorageConfig>(Configuration.GetSection("AzureStorageConfig"));
+            //services.AddSingleton(x => new String(Configuration.GetValue<string>("AzureBlobStorageConnectionString")));
+            // services.AddSingleton<IBlobService, BlobService>();
 
             services.AddTransient<IPlaceService, PlaceService>();
             services.AddTransient<ITypeOfPlaceService, TypeOfPlaceService>();
