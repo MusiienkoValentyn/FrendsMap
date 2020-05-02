@@ -79,8 +79,6 @@ namespace BLL.Services
             if (person == null)
                 throw new ValidationException("Argument is null", nameof(person));
 
-            //if (GetPerson(person.NickName))
-            //    throw new LoginException("Тебе хтось випередив. Вигадай інший нік");
 
             Person personEntity = ToDalEntity(person);
             var pNick = person.NickName;
@@ -94,6 +92,8 @@ namespace BLL.Services
 
             var personIdAndImageCount = GetPersonIdAndAmountOfImagesByNickname(pNick);
 
+            if(person.Image==null)
+                throw new ValidationException("Argument is null", nameof(person.Image));
 
             var bytes = person.Image.GetBytes();
             MemoryStream ms = new MemoryStream(bytes.Result);
@@ -101,23 +101,9 @@ namespace BLL.Services
 
             var path = "DefaultEndpointsProtocol=https;AccountName=frendsmapimagestorage1;AccountKey=w9SZUCuKSTiZAw6clAbZbyA/LsgQI/3JEpEMBNCpDyj2rGPJ6OIBTYaFoROqByRTNESVDtgGelxNIk8UOO9IrQ==;EndpointSuffix=core.windows.net";
 
-
-
-
-
-            //var urlStorage = "https://frendsmapimagestorage1.blob.core.windows.net/images";
-
             var pathToDb = $"{pNick}_{personIdAndImageCount[1] + 1}.jpg";
 
-
-
            Task.Run(() => UploadFile(path, ms, pathToDb));
-
-
-
-            // var res = Task.Run(()=>DownloadFile());
-
-
 
             PhotoDTO photo = new PhotoDTO();
             photo.DateTimeOfAdding = DateTime.Now;
@@ -272,12 +258,6 @@ namespace BLL.Services
             UnitOfWork.Person.Update(personEntity);
             UnitOfWork.Save();
         }
-
-
-
-
-
-
 
 
         private List<int> GetPersonIdAndAmountOfImagesByNickname(string nick)

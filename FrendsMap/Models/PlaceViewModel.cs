@@ -13,5 +13,6 @@ namespace FrendsMap.Models
         public DateTime DateTimeOfAdding { get; set; }
         public int TypeOfPlaceId { get; set; }
         public int PersonId { get; set; }
+        public bool IsAccepted { get; set; }
     }
 }

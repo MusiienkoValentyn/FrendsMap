@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 using DAL.Configuration;
 using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace DAL
 {
@@ -18,27 +19,61 @@ namespace DAL
         public FrendsMapContext(DbContextOptions<FrendsMapContext> options)
             : base(options)
         {
-             //Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             //Database.EnsureCreated();
-           
+
         }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<RankingOfFriend>()
-             .HasOne(p => p.Person)
-             .WithMany(b => b.RankingOfFriends)
-             .HasForeignKey(p => p.PersonId);
+            modelBuilder.Entity<RankingOfFriend>(entity =>
+            {
+                entity.HasKey(p => new { p.TypeOfPlaceId, p.PersonId, p.FriendId });
+
+                entity.HasOne(e => e.Person).WithMany(r => r.RankingOfFriends)
+                 .HasForeignKey(fk => fk.PersonId)
+                 .OnDelete(DeleteBehavior.ClientSetNull);
+
+
+                entity.HasOne(e => e.Person1).WithMany(r => r.RankingOfFriends1)
+                 .HasForeignKey(fk => fk.FriendId)
+                 .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
+            modelBuilder.Entity<Ranking>()
+                .Property(p => p.DateTimeOfAdding)
+                .HasDefaultValueSql("GETUTCDATE()");
+
+            modelBuilder.Entity<Comment>()
+                .Property(p => p.DateTimeOfAdding)
+                .HasDefaultValueSql("GETUTCDATE()");
+
+            modelBuilder.Entity<Photo>()
+                .Property(p => p.DateTimeOfAdding)
+                .HasDefaultValueSql("GETUTCDATE()");
 
             modelBuilder.Entity<RankingOfFriend>()
-          .HasOne(p => p.Person1)
-          .WithMany(b => b.RankingOfFriends1)
-          .HasForeignKey(p => p.FriendId);
+                .Property(p => p.DateTimeOfAdding)
+                .HasDefaultValueSql("GETUTCDATE()");
 
-            modelBuilder.Seed();
+            modelBuilder.Entity<Place>()
+                .Property(p => p.DateTimeOfAdding)
+                .HasDefaultValueSql("GETUTCDATE()");
 
+            modelBuilder.Entity<Photo>()
+                .Property(p => p.IsAccepted)
+                .HasDefaultValue(true);
+
+            modelBuilder.Entity<Place>()
+               .Property(p => p.IsAccepted)
+               .HasDefaultValue(true);
+
+            modelBuilder.Entity<Comment>()
+               .Property(p => p.IsAccepted)
+               .HasDefaultValue(true);
         }
+
 
         public DbSet<TypeOfPlace> TypeOfPlace { get; set; }
         public DbSet<Place> Place { get; set; }

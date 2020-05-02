@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAL.Entities
 {
@@ -11,18 +12,23 @@ namespace DAL.Entities
     {
         [Key]
         public int Id { get; set; }
-        //[Required]
+        [Required]
         public string NickName { get; set; }
-        //public string Photo { get; set; }
-        //public string Image { get; set; }
-        //public string Gmail { get; set; }
-        //public int Rating { get; set; }
+        [Required]
+        public string Gmail { get; set; }
+        public string Avatar { get; set; }
+        public int Rating { get; set; }
+        [Required]
+        public string IDUserOfGoogle { get; set; }
+
 
         public ICollection<Place> Places { get; set; }
         public ICollection<Photo> Photos { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Ranking> Rankings { get; set; }
+
         public ICollection<RankingOfFriend> RankingOfFriends { get; set; }
+
         public ICollection<RankingOfFriend> RankingOfFriends1 { get; set; }
         public Person()
         {
@@ -33,8 +39,5 @@ namespace DAL.Entities
             RankingOfFriends = new List<RankingOfFriend>();
             RankingOfFriends1 = new List<RankingOfFriend>();
         }
-
-
-
     }
 }

@@ -61,7 +61,7 @@ namespace FrendsMap.Controllers
                 _rankingService.InsertRanking(result);
                 return Ok();
             }
-            catch
+            catch(Exception ex)
             {
                 return StatusCode(HttpStatusCode.NoContent);
             }

@@ -10,7 +10,8 @@ namespace DAL.Entities
         public string URL { get; set; }
         [Required]
         public System.DateTime DateTimeOfAdding { get; set; }
-        //public bool IsAccepted { get; set; }
+        [Required]
+        public bool IsAccepted { get; set; }
 
         public int? PlaceId { get; set; }
         public Place Place { get; set; }

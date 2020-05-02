@@ -13,11 +13,8 @@ namespace DAL.Entities
         public string Geolocation { get; set; }
         [Required]
         public System.DateTime DateTimeOfAdding { get; set; }
-        //public bool IsAccepted { get; set; }
-
-        ///////
-
-
+        [Required]
+        public bool IsAccepted { get; set; }
 
         [Required]
         public int TypeOfPlaceId { get; set; }

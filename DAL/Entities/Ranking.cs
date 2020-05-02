@@ -11,6 +11,7 @@ namespace DAL.Entities
         [Required]
         public System.DateTime DateTimeOfAdding { get; set; }
 
+        //[Required]
         public int? PlaceId { get; set; }
         public Place Place { get; set; }
 

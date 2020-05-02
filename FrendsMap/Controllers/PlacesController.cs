@@ -62,7 +62,7 @@ namespace FrendsMap.Controllers
                 _placeService.InsertPlace(result);
                 return Ok();
             }
-            catch
+            catch(Exception ex)
             {
                 return StatusCode(HttpStatusCode.NoContent);
             }
