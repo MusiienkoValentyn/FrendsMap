@@ -72,6 +72,18 @@ namespace DAL
             modelBuilder.Entity<Comment>()
                .Property(p => p.IsAccepted)
                .HasDefaultValue(true);
+
+            modelBuilder.Entity<Person>()
+                .HasIndex(i => i.IDUserOfGoogle)
+                .IsUnique();
+
+            modelBuilder.Entity<Person>()
+                .HasIndex(i => i.NickName)
+                .IsUnique();
+
+            modelBuilder.Entity<Person>()
+                .Property(p => p.Rating)
+                .HasDefaultValue(1);
         }
 
 

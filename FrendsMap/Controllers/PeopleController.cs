@@ -57,6 +57,13 @@ namespace FrendsMap.Controllers
             return Ok(person);
         }
 
+        [HttpGet]
+        public ActionResult IsIdUserOfGoogleConsist(string nickname)
+        {
+            var person = _personService.GetPersonIDUserOfGoogle(nickname);
+            return Ok(person);
+        }
+
 
         [HttpPost]
         public ActionResult CreatePerson([FromForm]PersonViewModel person)

@@ -73,6 +73,20 @@ namespace BLL.Services
             else
                 return false;
         }
+        public bool GetPersonIDUserOfGoogle(string id)
+        {
+            if (id == null)
+                throw new ValidationException("Argmunet is null", nameof(id));
+
+            var res = (from person in UnitOfWork.Person.GetAll()
+                       where person.IDUserOfGoogle == id
+                       select person.IDUserOfGoogle).ToList();
+
+            if (res.Count > 0)
+                return true;
+            else
+                return false;
+        }
 
         public void InsertPerson(PersonDTO person)
         {
@@ -82,179 +96,15 @@ namespace BLL.Services
             
             Person personEntity = ToDalEntity(person);
             personEntity.Avatar = $"{personEntity.NickName}Avatar";
-            //var pNick = person.NickName;
             UnitOfWork.Person.Create(personEntity);
 
-            var bytes = person.Image.GetBytes();
-            MemoryStream ms = new MemoryStream(bytes.Result);
+            MemoryStream ms = new MemoryStream(person.Image.GetBytes().Result);
 
-            var path = "DefaultEndpointsProtocol=https;AccountName=frendsmapimagestorage1;AccountKey=w9SZUCuKSTiZAw6clAbZbyA/LsgQI/3JEpEMBNCpDyj2rGPJ6OIBTYaFoROqByRTNESVDtgGelxNIk8UOO9IrQ==;EndpointSuffix=core.windows.net";
-            Task.Run(() => UploadFile(path, ms,  personEntity.Avatar));
+            Task.Run(() => AddImage.UploadFile(ms,  personEntity.Avatar));
             UnitOfWork.Save();
-
-
-
-            ///////////////////////////////////////////////////////////////////////////////////////////
-
-
-           // var personIdAndImageCount = GetPersonIdAndAmountOfImagesByNickname(pNick);
-
-           // if(person.Image==null)
-           //     throw new ValidationException("Argument is null", nameof(person.Image));
-
-           // var bytes = person.Image.GetBytes();
-           // MemoryStream ms = new MemoryStream(bytes.Result);
-           // var b = FreeImageBitmap.FromStream(ms);
-
-           // var path = "DefaultEndpointsProtocol=https;AccountName=frendsmapimagestorage1;AccountKey=w9SZUCuKSTiZAw6clAbZbyA/LsgQI/3JEpEMBNCpDyj2rGPJ6OIBTYaFoROqByRTNESVDtgGelxNIk8UOO9IrQ==;EndpointSuffix=core.windows.net";
-
-           // var pathToDb = $"{pNick}_{personIdAndImageCount[1] + 1}.jpg";
-
-           //Task.Run(() => UploadFile(path, ms, pathToDb));
-
-           // PhotoDTO photo = new PhotoDTO();
-           // photo.DateTimeOfAdding = DateTime.Now;
-           // photo.PersonId = personIdAndImageCount[0];
-           // photo.URL = "https://frendsmapimagestorage1.blob.core.windows.net/images/"+pathToDb;
-
-           // PhotoService photoService = new PhotoService(_unitOfWork);
-           // photoService.InsertPhoto(photo);
-
         }
 
-        private async Task UploadFile(string path,Stream stream,string name)
-        {
-
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(path);
-
-            // Create the blob client.
-            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-            // Retrieve reference to a previously created container.
-            CloudBlobContainer container = blobClient.GetContainerReference("images");
-      
-            // Retrieve reference to a blob named "myblob".
-            CloudBlockBlob blockBlob = container.GetBlockBlobReference(name);
-            blockBlob.Properties.ContentType = "image/jpeg";
-
-            // Create or overwrite the "myblob" blob with contents from a local file.
-            using (var fileStream = stream)
-            {
-                fileStream.Position=0;
-                await blockBlob.UploadFromStreamAsync(fileStream);
-            }
-
-        }
-
-
-        private Stream DownloadFile()
-        {
-
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=frendsmapimagestorage1;AccountKey=w9SZUCuKSTiZAw6clAbZbyA/LsgQI/3JEpEMBNCpDyj2rGPJ6OIBTYaFoROqByRTNESVDtgGelxNIk8UOO9IrQ==;EndpointSuffix=core.windows.net");
-
-            CloudBlockBlob blob = new CloudBlockBlob(new Uri("https://frendsmapimagestorage1.blob.core.windows.net/images"), storageAccount.Credentials);
-
-            Stream mem = new MemoryStream();
-            if (blob != null)
-            {
-                blob.DownloadToStreamAsync(mem);
-            }
-
-            return mem;
-
-
-
-
-
-
-
-            //CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=frendsmapimagestorage1;AccountKey=w9SZUCuKSTiZAw6clAbZbyA/LsgQI/3JEpEMBNCpDyj2rGPJ6OIBTYaFoROqByRTNESVDtgGelxNIk8UOO9IrQ==;EndpointSuffix=core.windows.net");
-
-            //CloudBlockBlob blob = new CloudBlockBlob(new Uri("https://frendsmapimagestorage1.blob.core.windows.net/images/img.jpg"), storageAccount.Credentials);
-
-
-            //using (var stream = blob.OpenReadAsync())
-            //{
-            //    using (StreamReader reader = new StreamReader(stream.Result))
-            //    {
-            //        return reader.ReadToEnd();
-            //    }
-            //}
-
-
-
-
-
-
-
-            // var storageAccount = CloudStorageAccount.Parse(CloudConfigurationManager.GetSetting("DefaultEndpointsProtocol=https;AccountName=frendsmapimagestorage1;AccountKey=w9SZUCuKSTiZAw6clAbZbyA/LsgQI/3JEpEMBNCpDyj2rGPJ6OIBTYaFoROqByRTNESVDtgGelxNIk8UOO9IrQ==;EndpointSuffix=core.windows.net"));
-            // var myClient = storageAccount.CreateCloudBlobClient();
-            // var container = myClient.GetContainerReference("images");
-            //// container.CreateIfNotExistsAsync(BlobContainerPublicAccessType.Blob);
-
-            // //lines modified
-            // var blockBlob = container.GetBlockBlobReference("img.jpg");
-            // using (var fileStream = System.IO.File.OpenWrite(@"D:\Desktop\mikepic-backup.png"))
-            // {
-            //    await blockBlob.DownloadToStreamAsync(fileStream);
-            // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //var containerName = "images";
-
-            //string storageConnection = CloudConfigurationManager.GetSetting("DefaultEndpointsProtocol=https;AccountName=frendsmapimagestorage1;AccountKey=w9SZUCuKSTiZAw6clAbZbyA/LsgQI/3JEpEMBNCpDyj2rGPJ6OIBTYaFoROqByRTNESVDtgGelxNIk8UOO9IrQ==;EndpointSuffix=core.windows.net");
-            //CloudStorageAccount cloudStorageAccount = CloudStorageAccount.Parse(storageConnection); 
-            //CloudBlobClient blobClient = cloudStorageAccount.CreateCloudBlobClient();
-
-
-
-            //CloudBlobContainer cloudBlobContainer = blobClient.GetContainerReference(containerName); 
-            //CloudBlockBlob blockBlob = cloudBlobContainer.GetBlockBlobReference("uploadedfilename.ext");
-
-
-
-            //MemoryStream memStream = new MemoryStream();
-
-            //await blockBlob.DownloadToStreamAsync(memStream);
-
-
-            ////////CloudStorageAccount storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=frendsmapimagestorage1;AccountKey=w9SZUCuKSTiZAw6clAbZbyA/LsgQI/3JEpEMBNCpDyj2rGPJ6OIBTYaFoROqByRTNESVDtgGelxNIk8UOO9IrQ==;EndpointSuffix=core.windows.net");
-
-            ////////// Create the blob client.
-            ////////CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-            ////////CloudBlobContainer container = blobClient.GetContainerReference("images");
-
-
-            ////////var blockBlob = container.GetBlockBlobReference("");
-
-            ////////var downloadsPathOnServer = Path.Combine(HostingEnvironment.MapPath(DOWNLOAD_PATH), blockBlob.Name);
-
-            ////////using (var fileStream = File.OpenWrite(downloadsPathOnServer))
-            ////////{
-            ////////    await blockBlob.DownloadToStreamAsync(fileStream);
-            ////////}
-        }
+       
 
         public void UpdatePerson(PersonDTO person)
         {
@@ -297,20 +147,4 @@ namespace BLL.Services
         }
 
     }
-
-    public static class FormFileExtensions
-    {
-        public static async Task<byte[]> GetBytes(this IFormFile formFile)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                await formFile.CopyToAsync(memoryStream);
-                return memoryStream.ToArray();
-            }
-        }
-
-    }
-
-
-
 }

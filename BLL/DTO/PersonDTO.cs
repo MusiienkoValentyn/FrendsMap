@@ -13,6 +13,7 @@ namespace BLL.DTO
         public IFormFile Image { get; set; }
         public string Gmail { get; set; }
         public int Rating { get; set; }
+        public string Avatar { get; set; }
         public string IDUserOfGoogle { get; set; }
 
         public IEnumerable<Place> Places { get; set; }

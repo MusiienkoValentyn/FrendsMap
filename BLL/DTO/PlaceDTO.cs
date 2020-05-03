@@ -1,4 +1,5 @@
 ﻿using DAL.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,8 @@ namespace BLL.DTO
         public string Geolocation { get; set; }
         public System.DateTime DateTimeOfAdding { get; set; }
         public bool IsAccepted { get; set; }
+        public string Avatar { get; set; }
+        public IFormFile Image { get; set; }
 
         public int TypeOfPlaceId { get; set; }
         public TypeOfPlace TypeOfPlace { get; set; }

@@ -10,6 +10,7 @@ namespace BLL.Interfaces
         IEnumerable<PersonDTO> GetPeople();
         PersonDTO GetPerson(int? id);
         bool GetPerson(string nickname);
+        bool GetPersonIDUserOfGoogle(string id);
         void InsertPerson(PersonDTO person);
         void UpdatePerson(PersonDTO person);
         void DeletePerson(int? id);

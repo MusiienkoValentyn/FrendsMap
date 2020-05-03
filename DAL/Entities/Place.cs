@@ -15,6 +15,7 @@ namespace DAL.Entities
         public System.DateTime DateTimeOfAdding { get; set; }
         [Required]
         public bool IsAccepted { get; set; }
+        public string Avatar { get; set; }
 
         [Required]
         public int TypeOfPlaceId { get; set; }

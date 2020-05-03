@@ -6,7 +6,9 @@ using DAL;
 using DAL.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -39,7 +41,11 @@ namespace BLL.Services
                 throw new ValidationException("Argument is null", nameof(place));
 
             Place placeEntity = ToDalEntity(place);
+            placeEntity.Avatar = $"{placeEntity.Id}Avatar";
             UnitOfWork.Place.Create(placeEntity);
+            MemoryStream ms = new MemoryStream(place.Image.GetBytes().Result);
+
+            Task.Run(() => AddImage.UploadFile(ms, placeEntity.Avatar));
             UnitOfWork.Save();
         }
 
