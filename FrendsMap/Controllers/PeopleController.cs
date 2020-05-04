@@ -58,9 +58,9 @@ namespace FrendsMap.Controllers
         }
 
         [HttpGet]
-        public ActionResult IsIdUserOfGoogleConsist(string nickname)
+        public ActionResult IsIdUserOfGoogleConsist(string IDUserOfGoogle)
         {
-            var person = _personService.GetPersonIDUserOfGoogle(nickname);
+            var person = _personService.GetPersonIDUserOfGoogle(IDUserOfGoogle);
             return Ok(person);
         }
 

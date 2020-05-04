@@ -7,7 +7,6 @@ namespace BLL.DTO
 {
     public class RankingOfFriendDTO
     {
-        public int Id { get; set; }
         public int Mark { get; set; }
         public System.DateTime DateTimeOfAdding { get; set; }
 

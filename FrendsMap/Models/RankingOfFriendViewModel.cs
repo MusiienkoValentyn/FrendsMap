@@ -7,7 +7,6 @@ namespace FrendsMap.Models
 {
     public class RankingOfFriendViewModel
     {
-        public int Id { get; set; }
         public int Mark { get; set; }
         public System.DateTime DateTimeOfAdding { get; set; }
 

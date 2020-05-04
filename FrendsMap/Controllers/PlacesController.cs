@@ -53,7 +53,7 @@ namespace FrendsMap.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreatePlace(PlaceViewModel place)
+        public ActionResult CreatePlace([FromForm]PlaceViewModel place)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceViewModel, PlaceDTO>()).CreateMapper();
             PlaceDTO result = mapper.Map<PlaceViewModel, PlaceDTO>(place);
