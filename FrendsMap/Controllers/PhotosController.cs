@@ -75,11 +75,11 @@ namespace FrendsMap.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdatePhoto(int id, PhotoViewModel place)
+        public ActionResult UpdatePhoto( PhotoViewModel photo)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PhotoViewModel, PhotoDTO>()).CreateMapper();
-            PhotoDTO result = mapper.Map<PhotoViewModel, PhotoDTO>(place);
-            result.Id = id;
+            PhotoDTO result = mapper.Map<PhotoViewModel, PhotoDTO>(photo);
+
             try
             {
                 _photoService.UpdatePhotoe(result);
@@ -93,7 +93,7 @@ namespace FrendsMap.Controllers
 
         [HttpDelete]
         // [Route("Delete")]
-        public ActionResult DeletePlace(int id)
+        public ActionResult DeletePhoto(int id)
         {
             try
             {

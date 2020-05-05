@@ -66,11 +66,10 @@ namespace FrendsMap.Controllers
             }
         }
         [HttpPut]
-        public ActionResult UpdateTypeOfPlace(int id, TypeOfPlaceViewModel typeOfPlaces)
+        public ActionResult UpdateTypeOfPlace(TypeOfPlaceViewModel typeOfPlaces)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<TypeOfPlaceViewModel, TypeOfPlaceDTO>()).CreateMapper();
             TypeOfPlaceDTO result = mapper.Map<TypeOfPlaceViewModel, TypeOfPlaceDTO>(typeOfPlaces);
-            result.Id = id;
             try
             {
                 _typeOfPlaceService.UpdateTypeOfPlace(result);

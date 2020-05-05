@@ -68,17 +68,17 @@ namespace FrendsMap.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdateRankingOfFriend(int id, RankingOfFriendViewModel ranking)
+        public ActionResult UpdateRankingOfFriend(RankingOfFriendViewModel ranking)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RankingOfFriendViewModel, RankingOfFriendDTO>()).CreateMapper();
             RankingOfFriendDTO result = mapper.Map<RankingOfFriendViewModel, RankingOfFriendDTO>(ranking);
-            result.Id = id;
+
             try
             {
                 _rankingOfFriendService.UpdateRankingOfFriend(result);
                 return Ok();
             }
-            catch
+            catch(Exception ex)
             {
                 return StatusCode(HttpStatusCode.NoContent);
             }

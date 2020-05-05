@@ -68,11 +68,12 @@ namespace FrendsMap.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdateRanking(int id, RankingViewModel place)
+        public ActionResult UpdateRanking(RankingViewModel ranking)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RankingViewModel, RankingDTO>()).CreateMapper();
-            RankingDTO result = mapper.Map<RankingViewModel, RankingDTO>(place);
-            result.Id = id;
+            RankingDTO result = mapper.Map<RankingViewModel, RankingDTO>(ranking);
+            ranking.DateTimeOfAdding = DateTime.UtcNow;
+
             try
             {
                 _rankingService.UpdateRanking(result);

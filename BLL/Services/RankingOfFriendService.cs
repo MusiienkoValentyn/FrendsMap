@@ -57,14 +57,11 @@ namespace BLL.Services
             if (ranking == null)
                 throw new ValidationException("Argument is null", nameof(ranking));
 
+            ranking.DateTimeOfAdding = DateTime.UtcNow;
             RankingOfFriend placeEntity = ToDalEntity(ranking);
             UnitOfWork.RankingOfFriend.Update(placeEntity);
             UnitOfWork.Save();
         }
-
-
-
-
 
 
         public IEnumerable<RankingOfFriendDTO> GetAllFriends(int? id)
@@ -75,11 +72,6 @@ namespace BLL.Services
 
             //    return res;
         }
-
-
-
-
-
 
 
         public List<string> GetListOfFriends(int? id)

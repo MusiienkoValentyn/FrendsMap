@@ -68,7 +68,7 @@ namespace BLL.Services
         {
             if (photo == null)
                 throw new ValidationException("Argument is null", nameof(photo));
-
+            photo.DateTimeOfAdding = DateTime.UtcNow;
             Photo photoEntity = ToDalEntity(photo);
             UnitOfWork.Photo.Update(photoEntity);
             UnitOfWork.Save();

@@ -53,6 +53,7 @@ namespace BLL.Services
         {
             if (place == null)
                 throw new ValidationException("Argument is null", nameof(place));
+            place.DateTimeOfAdding = DateTime.UtcNow;
 
             Place placeEntity = ToDalEntity(place);
             UnitOfWork.Place.Update(placeEntity);

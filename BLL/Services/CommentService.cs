@@ -56,6 +56,7 @@ namespace BLL.Services
         {
             if (comment == null)
                 throw new ValidationException("Argument is null", nameof(comment));
+            comment.DateTimeOfAdding = DateTime.UtcNow;
 
             Comment commentEntity = ToDalEntity(comment);
             UnitOfWork.Comment.Update(commentEntity);

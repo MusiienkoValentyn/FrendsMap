@@ -68,11 +68,11 @@ namespace FrendsMap.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdateComment(int id, CommentViewModel place)
+        public ActionResult UpdateComment(CommentViewModel place)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CommentViewModel, CommentDTO>()).CreateMapper();
             CommentDTO result = mapper.Map<CommentViewModel, CommentDTO>(place);
-            result.Id = id;
+
             try
             {
                 _commentService.UpdateComment(result);

@@ -69,11 +69,11 @@ namespace FrendsMap.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdatePlace(int id, PlaceViewModel place)
+        public ActionResult UpdatePlace(PlaceViewModel place)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceViewModel, PlaceDTO>()).CreateMapper();
             PlaceDTO result = mapper.Map<PlaceViewModel, PlaceDTO>(place);
-            result.Id = id;
+
             try
             {
                 _placeService.UpdatePlace(result);

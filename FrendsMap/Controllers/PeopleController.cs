@@ -87,11 +87,10 @@ namespace FrendsMap.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdatePerson(int id, PersonViewModel person)
+        public ActionResult UpdatePerson(PersonViewModel person)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PersonViewModel, PersonDTO>()).CreateMapper();
             PersonDTO result = mapper.Map<PersonViewModel, PersonDTO>(person);
-            result.Id = id;
             try
             {
                 _personService.UpdatePerson(result);
