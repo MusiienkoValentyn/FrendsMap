@@ -14,6 +14,7 @@ namespace BLL.DTO
         public System.DateTime DateTimeOfAdding { get; set; }
         public bool IsAccepted { get; set; }
         public string Avatar { get; set; }
+        public bool IsInGoogle { get; set; }
         public IFormFile Image { get; set; }
 
         public int TypeOfPlaceId { get; set; }

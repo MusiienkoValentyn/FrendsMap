@@ -59,7 +59,7 @@ namespace FrendsMap.Controllers
 
 
         [HttpPost]
-        public ActionResult CreatePhoto(PhotoViewModel photo)
+        public ActionResult CreatePhoto([FromForm]PhotoViewModel photo)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PhotoViewModel, PhotoDTO>()).CreateMapper();
             PhotoDTO result = mapper.Map<PhotoViewModel, PhotoDTO>(photo);
@@ -68,7 +68,7 @@ namespace FrendsMap.Controllers
                 _photoService.InsertPhoto(result);
                 return Ok();
             }
-            catch
+            catch(Exception ex)
             {
                 return StatusCode(HttpStatusCode.NoContent);
             }
@@ -106,5 +106,13 @@ namespace FrendsMap.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult GetPhotosByPlaceId(int id)
+        {
+            var result = _photoService.GetPhotosByPlaceId(id);
+            if (result == null)
+                return NotFound();
+            return Ok(result);
+        }
     }
 }

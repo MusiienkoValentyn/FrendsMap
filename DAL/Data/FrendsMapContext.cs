@@ -84,6 +84,10 @@ namespace DAL
             modelBuilder.Entity<Person>()
                 .Property(p => p.Rating)
                 .HasDefaultValue(1);
+
+            //modelBuilder.Entity<Place>()
+            //.Property(p => p.IsInGoogle)
+            //.HasDefaultValue(true);
         }
 
 

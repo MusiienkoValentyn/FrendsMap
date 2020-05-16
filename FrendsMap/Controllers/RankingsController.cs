@@ -72,7 +72,6 @@ namespace FrendsMap.Controllers
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<RankingViewModel, RankingDTO>()).CreateMapper();
             RankingDTO result = mapper.Map<RankingViewModel, RankingDTO>(ranking);
-            ranking.DateTimeOfAdding = DateTime.UtcNow;
 
             try
             {

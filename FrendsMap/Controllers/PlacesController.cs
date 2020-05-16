@@ -99,5 +99,14 @@ namespace FrendsMap.Controllers
                 return StatusCode(HttpStatusCode.NotFound);
             }
         }
+
+        [HttpGet]
+        public ActionResult PlaceInDb(PlaceViewModel place)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PlaceViewModel, PlaceDTO>()).CreateMapper();
+            PlaceDTO result = mapper.Map<PlaceViewModel, PlaceDTO>(place);
+            var res = _placeService.IsPlaceConsist(result);
+            return Ok(res);
+        }
     }
 }

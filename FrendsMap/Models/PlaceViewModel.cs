@@ -16,6 +16,7 @@ namespace FrendsMap.Models
         public int PersonId { get; set; }
         public bool IsAccepted { get; set; }
         public string Avatar { get; set; }
+        public bool IsInGoogle { get; set; }
         public IFormFile Image { get; set; }
     }
 }

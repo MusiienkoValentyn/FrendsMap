@@ -6,6 +6,7 @@ using DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace BLL.Services
 {
@@ -56,7 +57,13 @@ namespace BLL.Services
             if (ranking == null)
                 throw new ValidationException("Argument is null", nameof(ranking));
 
+            var rank = (from r in UnitOfWork.Ranking.GetAll() where r.PersonId == ranking.PersonId && r.PlaceId == ranking.PlaceId  select r).FirstOrDefault();
+            if(rank==null)
+                throw new ValidationException("Argument is null", nameof(ranking));
+
             Ranking rankingEntity = ToDalEntity(ranking);
+            rankingEntity.Id = rank.Id;
+            rankingEntity.DateTimeOfAdding = DateTime.UtcNow;
             UnitOfWork.Ranking.Update(rankingEntity);
             UnitOfWork.Save();
         }

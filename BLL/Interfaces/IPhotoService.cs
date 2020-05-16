@@ -13,5 +13,6 @@ namespace BLL.Interfaces
         void InsertPhoto(PhotoDTO place);
         void UpdatePhotoe(PhotoDTO place);
         void DeletePhoto(int? id);
+        List<string> GetPhotosByPlaceId(int id);
     }
 }

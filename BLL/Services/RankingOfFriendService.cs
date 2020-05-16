@@ -59,7 +59,7 @@ namespace BLL.Services
 
             ranking.DateTimeOfAdding = DateTime.UtcNow;
             RankingOfFriend placeEntity = ToDalEntity(ranking);
-            UnitOfWork.RankingOfFriend.Update(placeEntity);
+           // UnitOfWork.RankingOfFriend.Update(placeEntity);
             UnitOfWork.Save();
         }
 

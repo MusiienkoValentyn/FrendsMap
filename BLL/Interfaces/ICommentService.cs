@@ -12,5 +12,6 @@ namespace BLL.Interfaces
         void InsertComment(CommentDTO place);
         void UpdateComment(CommentDTO place);
         void DeleteComment(int? id);
+        IEnumerable<ComentPersonDTO> GetCommentsByPlaceId(int id);
     }
 }

@@ -87,7 +87,7 @@ namespace FrendsMap.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdatePerson(PersonViewModel person)
+        public ActionResult UpdatePerson([FromForm] PersonViewModel person)
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PersonViewModel, PersonDTO>()).CreateMapper();
             PersonDTO result = mapper.Map<PersonViewModel, PersonDTO>(person);
@@ -96,7 +96,7 @@ namespace FrendsMap.Controllers
                 _personService.UpdatePerson(result);
                 return Ok();
             }
-            catch
+            catch(Exception ex)
             {
                 return StatusCode(HttpStatusCode.NoContent);
 

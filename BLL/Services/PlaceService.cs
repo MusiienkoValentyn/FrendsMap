@@ -7,6 +7,7 @@ using DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -53,10 +54,10 @@ namespace BLL.Services
         {
             if (place == null)
                 throw new ValidationException("Argument is null", nameof(place));
-            place.DateTimeOfAdding = DateTime.UtcNow;
-
+            //place.DateTimeOfAdding = DateTime.UtcNow;
+            //place.IsAccepted = true;
             Place placeEntity = ToDalEntity(place);
-            UnitOfWork.Place.Update(placeEntity);
+            //UnitOfWork.Place.Update(placeEntity);
             UnitOfWork.Save();
         }
 
@@ -67,6 +68,20 @@ namespace BLL.Services
 
             UnitOfWork.Place.Delete(id.Value);
             UnitOfWork.Save();
+        }
+        public int IsPlaceConsist(PlaceDTO place)
+        {
+            if (place == null)
+                throw new ValidationException("Argmunet is null", nameof(place));
+
+            var res = (from p in UnitOfWork.Place.GetAll()
+                       where p.Geolocation == place.Geolocation && p.Name==place.Name
+                       select p).FirstOrDefault();
+
+            if (res==null)
+                return 0;
+            else
+                return res.Id;
         }
     }
 }

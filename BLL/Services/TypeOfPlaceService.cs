@@ -55,7 +55,7 @@ namespace BLL.Services
                 throw new ValidationException("Argument is null", nameof(typeOfPlace));
 
             TypeOfPlace typeOfPlaceEntity = ToDalEntity(typeOfPlace);
-            UnitOfWork.TypeOfPlace.Update(typeOfPlaceEntity);
+           // UnitOfWork.TypeOfPlace.Update(typeOfPlaceEntity);
             UnitOfWork.Save();
         }
 

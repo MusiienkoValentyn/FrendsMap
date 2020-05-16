@@ -21,6 +21,7 @@ using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Table;
 using NLog.Internal;
 using System.Configuration;
+using FreeImageAPI.Metadata;
 
 namespace BLL.Services
 {
@@ -111,40 +112,20 @@ namespace BLL.Services
             if (person == null)
                 throw new ValidationException("Argument is null", nameof(person));
 
+            var gId = (from p in UnitOfWork.Person.GetAll() where p.IDUserOfGoogle == person.IDUserOfGoogle select p).FirstOrDefault();
+
+            
             Person personEntity = ToDalEntity(person);
+            personEntity.Id = gId.Id;
+            personEntity.Avatar = $"{personEntity.NickName}Avatar";
+            personEntity.Rating = gId.Rating;
+           
             UnitOfWork.Person.Update(personEntity);
+
+            MemoryStream ms = new MemoryStream(person.Image.GetBytes().Result);
+
+            Task.Run(() => AddImage.UploadFile(ms, personEntity.Avatar));
             UnitOfWork.Save();
         }
-
-
-        private List<int> GetPersonIdAndAmountOfImagesByNickname(string nick)
-        {
-            if (nick == null)
-                throw new ValidationException("Argmunet is null", nameof(nick));
-
-            var person = from pers in UnitOfWork.Person.GetAll()
-                         where pers.NickName == nick
-                         select pers;
-
-            int personId = 0;
-            foreach (var p in person)
-            {
-                personId = p.Id;
-            };
-
-            var AmountImages = from photo in UnitOfWork.Photo.GetAll()
-                               where photo.PersonId == personId
-                               select photo.Id;
-
-            List<int> list = new List<int>();
-            list.Add(personId);
-            list.Add(AmountImages.Count());
-
-            if (list == null)
-                throw new ValidationException("Person not found", nameof(list));
-
-            return list;
-        }
-
     }
 }

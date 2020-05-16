@@ -34,13 +34,13 @@ namespace FrendsMap.Controllers
         {
             var comments = _commentService.GetComments();
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<CommentDTO, CommentViewModel>()).CreateMapper();
-            var result = mapper.Map<IEnumerable<CommentDTO>, List<CommentViewModel>>(comments);
+            var result = mapper.Map<IEnumerable<CommentDTO>, List<CommentViewModel>>( comments);
             if (result == null)
                 return NotFound();
             return Ok(result);
         }
 
-        //[HttpGet("{id}")]
+        [HttpGet]
         public ActionResult GetComment(int id)
         {
             var comment = _commentService.GetComment(id);
@@ -97,6 +97,17 @@ namespace FrendsMap.Controllers
             {
                 return StatusCode(HttpStatusCode.NotFound);
             }
+        }
+
+        [HttpGet]
+        public ActionResult GetCommentByPlaceId(int id)
+        {
+            var comments = _commentService.GetCommentsByPlaceId(id);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ComentPersonDTO, ComentPersonViewModel>()).CreateMapper();
+            var result = mapper.Map<IEnumerable<ComentPersonDTO>, List<ComentPersonViewModel>>(comments);
+            if (result == null)
+                return NotFound();
+            return Ok(result);
         }
     }
 }

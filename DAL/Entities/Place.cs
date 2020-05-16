@@ -16,6 +16,8 @@ namespace DAL.Entities
         [Required]
         public bool IsAccepted { get; set; }
         public string Avatar { get; set; }
+        public bool IsInGoogle { get; set; }
+
 
         [Required]
         public int TypeOfPlaceId { get; set; }

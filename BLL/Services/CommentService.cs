@@ -6,6 +6,7 @@ using DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace BLL.Services
 {
@@ -59,8 +60,29 @@ namespace BLL.Services
             comment.DateTimeOfAdding = DateTime.UtcNow;
 
             Comment commentEntity = ToDalEntity(comment);
-            UnitOfWork.Comment.Update(commentEntity);
+           // UnitOfWork.Comment.Update(commentEntity);
             UnitOfWork.Save();
         }
+
+        public IEnumerable<ComentPersonDTO> GetCommentsByPlaceId(int id)
+        {
+            var res = (from p in UnitOfWork.Person.GetAll()
+                       join c in UnitOfWork.Comment.GetAll()
+                       on p.Id equals c.PersonId
+                       join pl in UnitOfWork.Place.GetAll()
+                       on c.PlaceId equals pl.Id
+                       where pl.Id == id
+                       orderby c.DateTimeOfAdding descending
+                       select new ComentPersonDTO()
+                       {
+                           Avatar = p.Avatar,
+                           NickName = p.NickName,
+                           Content = c.Content,
+                           DateTimeOfAdding = c.DateTimeOfAdding
+                       }).ToList();
+          
+            return res;
+        }
+
     }
 }
