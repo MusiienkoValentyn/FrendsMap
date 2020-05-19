@@ -75,7 +75,7 @@ namespace BLL.Services
                        orderby c.DateTimeOfAdding descending
                        select new ComentPersonDTO()
                        {
-                           Avatar = p.Avatar,
+                           Avatar = "https://frendsmapimagestorage1.blob.core.windows.net/images/"+p.Avatar,
                            NickName = p.NickName,
                            Content = c.Content,
                            DateTimeOfAdding = c.DateTimeOfAdding
