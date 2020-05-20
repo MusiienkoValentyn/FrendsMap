@@ -59,6 +59,20 @@ namespace BLL.Services
 
             return ToBllEntity(person);
         }
+        public PersonDTO GetPersonByGoogleId(string id)
+        {
+            if (id == null)
+                throw new ValidationException("Argmunet is null", nameof(id));
+
+            var res = (from person in UnitOfWork.Person.GetAll()
+                       where person.IDUserOfGoogle == id
+                       select person).FirstOrDefault();
+
+            if (res == null)
+                throw new ValidationException("Person not found", nameof(res));
+
+            return ToBllEntity(res);
+        }
 
         public bool GetPerson(string nickname)
         {

@@ -49,6 +49,24 @@ namespace FrendsMap.Controllers
                 return NotFound();
             return Ok(result);
         }
+        [HttpGet]
+        public ActionResult GetPersonByGoogleId(string id)
+        {
+            try
+            {
+                var person = _personService.GetPersonByGoogleId(id);
+                var mapper = new MapperConfiguration(cfg => cfg.CreateMap<PersonDTO, PersonViewModel>()).CreateMapper();
+                var result = mapper.Map<PersonDTO, PersonViewModel>(person);
+                if (result == null)
+                    return NotFound();
+                return Ok(result);
+            }
+            catch (ValidationException)
+            {
+                return StatusCode(HttpStatusCode.NoContent);
+
+            }
+        }
 
         [HttpGet]
         public ActionResult IsPersonConsist(string nickname)

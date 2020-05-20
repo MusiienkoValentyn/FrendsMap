@@ -9,6 +9,7 @@ namespace BLL.Interfaces
     {
         IEnumerable<PersonDTO> GetPeople();
         PersonDTO GetPerson(int? id);
+        PersonDTO GetPersonByGoogleId(string id);
         bool GetPerson(string nickname);
         bool GetPersonIDUserOfGoogle(string id);
         void InsertPerson(PersonDTO person);

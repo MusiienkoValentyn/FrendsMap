@@ -72,13 +72,13 @@ namespace BLL.Services
                        join pl in UnitOfWork.Place.GetAll()
                        on c.PlaceId equals pl.Id
                        where pl.Id == id
-                       orderby c.DateTimeOfAdding descending
+                       orderby c.DateTimeOfAdding.Date descending
                        select new ComentPersonDTO()
                        {
                            Avatar = "https://frendsmapimagestorage1.blob.core.windows.net/images/"+p.Avatar,
                            NickName = p.NickName,
                            Content = c.Content,
-                           DateTimeOfAdding = c.DateTimeOfAdding
+                           DateTimeOfAdding =  c.DateTimeOfAdding
                        }).ToList();
           
             return res;
