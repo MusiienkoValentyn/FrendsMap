@@ -98,7 +98,7 @@ namespace FrendsMap.Controllers
                 return BadRequest(ex.Message);
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(HttpStatusCode.NoContent);
             }
@@ -114,7 +114,7 @@ namespace FrendsMap.Controllers
                 _personService.UpdatePerson(result);
                 return Ok();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(HttpStatusCode.NoContent);
 
@@ -133,6 +133,44 @@ namespace FrendsMap.Controllers
             catch
             {
                 return StatusCode(HttpStatusCode.NotFound);
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetRecommendedPlaces(int PersonId)
+        {
+            try
+            {
+                var res = _personService.GetRecommendedPlaces(PersonId);
+                if (res == null)
+                    return StatusCode(HttpStatusCode.NoContent);
+
+                else
+                    return Ok(res);
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(HttpStatusCode.NoContent);
+
+            }
+        }
+
+        [HttpGet]
+        public ActionResult GetFriends(int id)
+        {
+            try
+            {
+                var res = _personService.GetFriends(id);
+                if (res == null)
+                    return StatusCode(HttpStatusCode.NoContent);
+                else
+                    return Ok(res);
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(HttpStatusCode.NoContent);
             }
         }
     }

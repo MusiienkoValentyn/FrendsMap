@@ -21,9 +21,7 @@ namespace DAL
         {
             //Database.EnsureDeleted();
             //Database.EnsureCreated();
-
         }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

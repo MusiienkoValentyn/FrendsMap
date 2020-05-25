@@ -15,5 +15,7 @@ namespace BLL.Interfaces
         void InsertPerson(PersonDTO person);
         void UpdatePerson(PersonDTO person);
         void DeletePerson(int? id);
+        object GetRecommendedPlaces(int id);
+        IEnumerable<PersonDTO> GetFriends(int id);
     }
 }

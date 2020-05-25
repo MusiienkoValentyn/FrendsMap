@@ -141,5 +141,52 @@ namespace BLL.Services
             Task.Run(() => AddImage.UploadFile(ms, personEntity.Avatar));
             UnitOfWork.Save();
         }
+
+        public object GetRecommendedPlaces(int id)
+        {
+
+            var res2 = (from p in UnitOfWork.Person.GetAll()
+                        join rp in UnitOfWork.RankingOfFriend.GetAll()
+                        on p.Id equals rp.FriendId
+                        
+                        join t in UnitOfWork.TypeOfPlace.GetAll()
+                        on rp.TypeOfPlaceId equals t.Id
+
+                        join pl in UnitOfWork.Place.GetAll() 
+                        on t.Id equals pl.TypeOfPlaceId
+
+                        join r in UnitOfWork.Ranking.GetAll()
+                        on pl.Id equals r.PlaceId  
+                       
+                        where rp.PersonId == id where r.PersonId == rp.FriendId
+                        
+                        group new { p, rp, r, pl } by new { pl.Name } into result
+                        let qq = result.FirstOrDefault()
+                        let place = qq.pl.Name
+                        let PlaceId=qq.pl.Id
+                        
+                        select new
+                        {
+                            a=result.Average(q=>q.r.Mark*q.rp.Mark),
+                           place,
+                           PlaceId
+                       }
+                       
+                   ).OrderByDescending(x=>x.a).ToList();
+
+            return res2;
+        }
+
+        public IEnumerable<PersonDTO> GetFriends(int id)
+        {
+            var res= (from f in UnitOfWork.Person.GetAll()
+                    join rf in UnitOfWork.RankingOfFriend.GetAll()
+                    on f.Id equals rf.FriendId
+                    where rf.PersonId == id
+                    select f).Distinct().ToList();
+            
+           return ToBllEntity(res);
+        }
+        
     }
 }

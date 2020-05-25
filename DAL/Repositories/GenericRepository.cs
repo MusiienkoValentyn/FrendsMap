@@ -44,9 +44,7 @@ namespace DAL
 
         public void Update(TEntity item)
         {
-
             _context.Entry(item).State = EntityState.Modified;
-            //_context.Entry(item).CurrentValues.SetValues(newItem);
         }
     }
 }
