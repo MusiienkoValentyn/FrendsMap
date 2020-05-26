@@ -44,9 +44,12 @@ namespace BLL.Services
             Place placeEntity = ToDalEntity(place);
             placeEntity.Avatar = $"{placeEntity.Id}Avatar";
             UnitOfWork.Place.Create(placeEntity);
-            MemoryStream ms = new MemoryStream(place.Image.GetBytes().Result);
+            if (place.Image != null)
+            {
+                MemoryStream ms = new MemoryStream(place.Image.GetBytes().Result);
 
-            Task.Run(() => AddImage.UploadFile(ms, placeEntity.Avatar));
+                Task.Run(() => AddImage.UploadFile(ms, placeEntity.Avatar));
+            }
             UnitOfWork.Save();
         }
 
