@@ -83,5 +83,20 @@ namespace BLL.Services
             else
                 return res.Id;
         }
+
+        public int IsPlaceConsist(string name)
+        {
+            if (name == null)
+                throw new ValidationException("Argmunet is null", nameof(name));
+
+            var res = (from p in UnitOfWork.Place.GetAll()
+                       where p.Name == name
+                       select p).FirstOrDefault();
+
+            if (res == null)
+                return 0;
+            else
+                return res.Id;
+        }
     }
 }

@@ -13,6 +13,7 @@ namespace BLL.Interfaces
         void UpdatePlace(PlaceDTO place);
         void DeletePlace(int? id);
         int IsPlaceConsist(PlaceDTO place);
+        int IsPlaceConsist(string name);
 
     }
 }

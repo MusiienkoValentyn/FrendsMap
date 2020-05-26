@@ -108,5 +108,12 @@ namespace FrendsMap.Controllers
             var res = _placeService.IsPlaceConsist(result);
             return Ok(res);
         }
+
+        [HttpGet]
+        public ActionResult PlaceInDbByName(string name)
+        {
+            var res = _placeService.IsPlaceConsist(name);
+            return Ok(res);
+        }
     }
 }
