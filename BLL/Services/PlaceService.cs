@@ -42,13 +42,14 @@ namespace BLL.Services
                 throw new ValidationException("Argument is null", nameof(place));
 
             Place placeEntity = ToDalEntity(place);
-            placeEntity.Avatar = $"{placeEntity.Id}Avatar";
+            
             UnitOfWork.Place.Create(placeEntity);
             if (place.Image != null)
             {
                 MemoryStream ms = new MemoryStream(place.Image.GetBytes().Result);
 
                 Task.Run(() => AddImage.UploadFile(ms, placeEntity.Avatar));
+                placeEntity.Avatar = $"{placeEntity.Id}Avatar";
             }
             UnitOfWork.Save();
         }
